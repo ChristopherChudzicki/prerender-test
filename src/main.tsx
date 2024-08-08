@@ -1,10 +1,22 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import routes from "./routes";
+import { RouterProvider } from "react-router";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const router = createBrowserRouter(routes, {
+  basename: import.meta.env.VITE_APP_BASE_URL ?? "/",
+});
+const queryClient = new QueryClient();
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router}></RouterProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  </React.StrictMode>
+);

@@ -30,6 +30,8 @@ jobs:
 
       - name: Build Frontend
         run: yarn build
+        env:
+          VITE_APP_BASE_URL: "/prerender-test"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3

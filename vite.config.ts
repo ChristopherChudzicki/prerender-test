@@ -3,6 +3,6 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/prerender-test",
+  base: process.env.VITE_APP_BASE_URL ?? "/",
   plugins: [react()],
 });
