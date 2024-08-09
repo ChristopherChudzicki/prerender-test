@@ -24,6 +24,16 @@ Social Media Previews:
 | no prerender                                                         | with prerender                                                         |
 | ![without prerender](./readme_images/without_prerender.png)          | ![with prerender](./readme_images/with_prerender.png)                  |
 
+## With curl
+
+You can see Prerender is only affecting bots by comparing
+
+```sh
+curl -A googlebot https://christopher-chudzicki.global.ssl.fastly.net/pokemon/pikachu
+# and
+curl https://christopher-chudzicki.global.ssl.fastly.net/pokemon/pikachu
+```
+
 ## Development
 
 With [corepack enabled](https://github.com/nodejs/corepack#corepack-enable--name):
