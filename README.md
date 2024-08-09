@@ -1,30 +1,34 @@
-# React + TypeScript + Vite
+# Prerender-test
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains a simple single-page react app deployed to Heroku (for no good reason[^1]) and fronted by a CDN use [Prerender.io](https://prerender.io) to create static HTML previews for bots.
 
-Currently, two official plugins are available:
+[^1]: When deployed elsewhere, I either had trouble getting SPA routing to work (all paths serving index.html), or I had trouble getting Fastly CDN to read the origin correct. After finding Fastly's `Override Host` setting, I overcame the latter issue on Heroku. Possibly that would have worked elsewhere.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Heroku App: https://prerender-test-01b7e6f9b586.herokuapp.com/
+- CDN: https://christopher-chudzicki.global.ssl.fastly.net/
 
-## Expanding the ESLint configuration
+The app includes **dynamically generated metadata tags**: these tags are rendered by Javascript (through React) based on API data.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The app contains two routes:
 
-- Configure the top-level `parserOptions` property like this:
+- `/`: The homepage
+  - no interesting metadata tags.
+- `/pokemon/:name` which uses [PokeApi](https://pokeapi.co/) to fetch data.
+  - Includes Opengraph metadata tags based on fetched data
+  - `/pokemon/ditto` and `/pokemon/pikachu` are linked to from the homepage. Other pokemon routes work, but only these two are linked.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+Social Media Previews:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+| https://prerender-test-01b7e6f9b586.herokuapp.com/pokemon/charmander | https://christopher-chudzicki.global.ssl.fastly.net/pokemon/charmander |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| no prerender                                                         | with prerender                                                         |
+| ![without prerender](./readme_images/without_prerender.png)          | ![with prerender](./readme_images/with_prerender.png)                  |
+
+## Development
+
+With [corepack enabled](https://github.com/nodejs/corepack#corepack-enable--name):
+
+- `yarn install` installs dependencies
+- `yarn dev` starts the server in development mode
+- `yarn build` builds the SPA for production
+- `yarn start` serves the SPA with a NodeJS express server
